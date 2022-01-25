@@ -1,7 +1,6 @@
 // 6  routes
 const {Router} = require('express');
 const { displaySauces, displaySauce, postSauce, updateSauce, deleteSauce, likeSauce } = require('../controllers/saucesController');
-
 const router = Router();
 
 router.get('/', displaySauces)

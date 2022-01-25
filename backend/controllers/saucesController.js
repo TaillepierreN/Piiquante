@@ -1,3 +1,5 @@
+const Sauce = require('../models/Sauce');
+
 exports.displaySauces = (req, res) => {
     res.status(200).json({
         message: 'route get sauces ok'
