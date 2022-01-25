@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const authRouting = require('./routes/authRouting');
+const saucesRouting = require('./routes/saucesRouting');
 require('./config/dbConfig');
 
 app.use(express.json());
@@ -11,6 +12,7 @@ app.use(express.json());
 //     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 // })
 
-app.use('/api/auth', authRouting)
+app.use('/api/auth', authRouting);
+app.use('/api/sauces', saucesRouting);
 
 app.listen(3002);
