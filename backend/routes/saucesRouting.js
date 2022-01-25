@@ -1,18 +1,19 @@
 // 6  routes
 const {Router} = require('express');
 const { displaySauces, displaySauce, postSauce, updateSauce, deleteSauce, likeSauce } = require('../controllers/saucesController');
+const auth = require('../middlewares/auth');
 const router = Router();
 
-router.get('/', displaySauces)
+router.get('/', auth, displaySauces)
 
-router.get('/:id', displaySauce)
+router.get('/:id', auth, displaySauce)
 
-router.post('/', postSauce)
+router.post('/', auth, postSauce)
 
-router.put('/:id', updateSauce)
+router.put('/:id', auth, updateSauce)
 
-router.delete('/:id', deleteSauce)
+router.delete('/:id', auth, deleteSauce)
 
-router.post('/:id/like', likeSauce)
+router.post('/:id/like', auth, likeSauce)
 
 module.exports = router;
