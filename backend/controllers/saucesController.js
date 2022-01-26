@@ -12,9 +12,10 @@ exports.displaySauces = (req, res) => {
 }
 
 exports.displaySauce = (req, res) => {
-    // res.status(200).json({
-    //     message: 'route get sauce ok'
-    // })
+    Sauce.findOne({ _id : req.params.id})
+    .then(sauce => res.status(200).json(sauce))
+    .catch(error => res.status(400).json({ error }));
+
 }
 
 exports.newSauce = (req, res) => {
