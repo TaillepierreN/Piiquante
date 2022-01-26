@@ -18,13 +18,17 @@ exports.displaySauce = (req, res) => {
 }
 
 exports.newSauce = (req, res) => {
-    // const sauceObject = JSON.parse(req.body.thing);
+    const sauceObject = JSON.parse(req.body.sauce);
     const sauce = new Sauce({
-        ...req.body,
-        // imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        ...sauceObject,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        likes: 0,
+        dislikes: 0,
+        usersLiked: [],
+        usersDisliked: []
     });
     sauce.save()
-    .then (res.status(201).json({
+    .then (() => res.status(201).json({
         message: 'Sauce ajoutée'
     }))
     .catch(error => res.status(400).json({
