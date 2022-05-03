@@ -2,19 +2,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-
+/**
+ * @description Fonction pour crée un compte utilisateur
+ * */
 exports.signup = async (req, res) => {
-    // bcrypt.hash(req.body.password, 10)
-    // .then(hash => {
-    //     const user = new User({
-    //         email: req.body.email,
-    //         password: hash
-    //     });
-    //     user.save()
-    //     .then(() => res.status(201).json({ message: 'Utilisateur crée !'}))
-    //     .catch(error => res.status(400).json({error}));
-    // })
-    // .catch(error => res.status(500).json({ error }));
     try {
         const hash = await bcrypt.hash(req.body.password, 10)
         const user = new User({
@@ -23,7 +14,7 @@ exports.signup = async (req, res) => {
         });
         await user.save()
         return res.status(201).json({
-            message: 'utilisateur crée 2'
+            message: 'utilisateur crée'
         })
     } catch (error) {
         return res.status(500).json({
@@ -33,33 +24,37 @@ exports.signup = async (req, res) => {
 }
 
 /**
- * @description fonction pour se log
+ * @description fonction pour se connecter avec un compte utilisateur existant
  */
 
 exports.login = async (req, res) => {
     try {
+        const bodyEmail= req.body.email;
         const user = await User.findOne({
-            email: req.body.email
-        })
-        if (!user) {
-            return res.status(404).json({
-                error: "Utilisateur non trouvé"
-            });
+            email: bodyEmail
         }
+        )
+        if (!user) {
+            return res.status(404).json(
+                "Utilisateur non trouvé"
+            );
+        }
+        console.log(req.body.email)
+        console.log(user)
         const isValid = await bcrypt.compare(req.body.password, user.password)
         if (!isValid) {
-            return res.status(400).json({
-                error: "Mot de passe incorrect"
-            });
+            return res.status(400).json(
+                "Mot de passe incorrect"
+            );
         }
         res.status(200).json({
             userId: user._id,
             token: jwt.sign({
-                    userId: user._id
-                },
+                userId: user._id
+            },
                 process.env.TOKEN_SECRET, {
-                    expiresIn: '24h'
-                }
+                expiresIn: '24h'
+            }
             )
         });
     } catch (error) {

@@ -1,6 +1,9 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
+/**
+ * @description  route getAll pour les sauces
+ * */
 exports.displaySauces = (req, res) => {
     Sauce.find()
         .then(sauce => res.status(200).json(sauce))
@@ -11,6 +14,9 @@ exports.displaySauces = (req, res) => {
         )
 }
 
+/**
+ * @description route getOne pour les sauces
+ */
 exports.displaySauce = (req, res) => {
     Sauce.findOne({
             _id: req.params.id
@@ -28,6 +34,9 @@ exports.displaySauce = (req, res) => {
         }));
 }
 
+/**
+ * @description route POST pour les sauces
+ */
 exports.newSauce = (req, res) => {
     const sauceObject = JSON.parse(req.body.sauce);
     const sauce = new Sauce({
@@ -43,6 +52,9 @@ exports.newSauce = (req, res) => {
         }));
 }
 
+/**
+ * @description route PUT pour les sauces
+ */
 exports.updateSauce = (req, res) => {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
@@ -54,8 +66,8 @@ exports.updateSauce = (req, res) => {
             _id: req.params.id
         })
         .then(sauce => {
-            const toDelete = sauce.imageUrl.split('/images/')[1];
             if (req.file) {
+                const toDelete = sauce.imageUrl.split('/images/')[1];
                 try {
                     fs.unlinkSync(`images/${toDelete}`)
                 } catch (error) {
@@ -77,6 +89,9 @@ exports.updateSauce = (req, res) => {
         })
 }
 
+/**
+ * @description route DELETE pour les sauces
+ */
 exports.deleteSauce = (req, res) => {
     Sauce.findOne({
             _id: req.params.id
@@ -99,7 +114,9 @@ exports.deleteSauce = (req, res) => {
         })
 }
 
-
+/**
+ * @description route PUT pour les likes des sauces
+ */
 exports.likeSauce = (req, res) => {
     const isLiked = req.body.like;
     switch (isLiked) {

@@ -1,4 +1,4 @@
-//Vérification que l'utilisateur est identifié avant d'autoriser ses requêtes
+//Vérification que le bon utilisateur est identifié avant d'autoriser ses requêtes
 
 const jwt = require("jsonwebtoken");
 
